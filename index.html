@@ -10,28 +10,27 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <style>
 :root{
-  --bg:#f5f0e8;--bg2:#ede6d4;--card:#fffdf8;--el:#eee8d8;--hov:#e7dec8;
-  --border:rgba(26,22,18,.09);--border2:rgba(26,22,18,.20);
-  --crimson:#8b1e2c;--crimson2:#b83838;--crimson3:#d94f4f;
-  --blue:#2a5fa8;--green:#2a7a4e;--orange:#c47a22;--gray:#7a7674;
-  --amber:#c47a22;--teal:#4a8ab8;--purple:#6b4a8a;
+  --bg:#f5f0e8;--bg2:#eee8d8;--card:#fffdf8;--el:#eee8d8;--hov:#e7dec8;
+  --border:rgba(26,22,18,.09);--border2:rgba(26,22,18,.20);--bdhi:rgba(139,30,44,.30);
+  --amber:#8b1e2c;--blue:#3a70c8;--green:#2a7a4e;--red:#b83838;--purple:#6b6b78;--teal:#4a8ab8;--gray:#949498;--orange:#c47a22;
+  --g1:#155a35;--g2:#2a7a4e;--g3:#3e9e6a;--g4:#6cbf90;--g5:#b2dfca;
+  --b1:#1a2e6e;--b2:#2a4a9e;--b3:#3a70c8;--b4:#6494d8;--b5:#a8c4ec;
+  --ldr:#2a7a4e;--adv:#3a70c8;--act:#c47a22;--emg:#b83838;--erl:#949498;
   --text:#16120e;--text2:#52483e;--text3:#968b76;--text4:#c9bfa6;
   --fs:'Fraunces',Georgia,serif;--fb:'Inter Tight',sans-serif;--fm:'JetBrains Mono',monospace;
-  --warn:#b83838;--ok:#2a7a4e;--caution:#c47a22;--neutral:#7a7674;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px;min-height:100vh;overflow-x:hidden;}
 .container{max-width:1700px;margin:0 auto;padding:0 24px;}
 
 /* ── HEADER ── */
-header{border-bottom:2px solid var(--crimson);padding:14px 0;background:var(--card);position:relative;overflow:hidden;}
-header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(139,30,44,.018) 40px,rgba(139,30,44,.018) 80px);pointer-events:none;}
+header{border-bottom:1px solid var(--border);padding:14px 0;background:var(--card);}
 .hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .hdr-title h1{font-family:var(--fs);font-size:2.1rem;font-weight:700;letter-spacing:-.02em;color:var(--text);line-height:1.1;}
-.hdr-title h1 em{font-style:italic;color:var(--crimson);}
+.hdr-title h1 em{font-style:italic;color:var(--amber);}
 .hdr-title p{font-family:var(--fm);font-size:.58rem;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;margin-top:6px;}
 .hdr-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.warn-badge{font-family:var(--fm);font-size:.6rem;background:rgba(139,30,44,.08);border:1px solid rgba(139,30,44,.3);color:var(--crimson);padding:4px 12px;letter-spacing:.12em;border-radius:3px;display:flex;align-items:center;gap:6px;}
+.warn-badge{font-family:var(--fm);font-size:.6rem;background:rgba(139,30,44,.07);border:1px solid rgba(139,30,44,.3);color:var(--amber);padding:4px 12px;letter-spacing:.12em;border-radius:3px;display:flex;align-items:center;gap:6px;}
 .warn-badge::before{content:'⚠';font-size:.7rem;}
 .hl-badge{font-family:var(--fm);font-size:.6rem;color:var(--text3);border:1px solid var(--border);background:var(--bg);padding:4px 12px;letter-spacing:.12em;border-radius:3px;}
 
@@ -41,7 +40,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 .tab-row::-webkit-scrollbar{display:none;}
 .tab-btn{font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:11px 20px;background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1px;color:var(--text3);cursor:pointer;white-space:nowrap;transition:all .14s;display:flex;align-items:center;gap:7px;}
 .tab-btn:hover{color:var(--text2);background:var(--bg);}
-.tab-btn.active{color:var(--crimson);border-bottom-color:var(--crimson);}
+.tab-btn.active{color:var(--amber);border-bottom-color:var(--amber);}
 .tab-ico{font-size:.8rem;}
 .tab-section{display:none;}
 .tab-section.active{display:block;}
@@ -50,15 +49,16 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:18px 0 12px;}
 .sc{background:var(--card);border:1px solid var(--border);padding:13px 16px;position:relative;overflow:hidden;border-radius:4px;box-shadow:0 1px 4px rgba(26,22,18,.06);}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.sc.cr::before{background:var(--crimson);}.sc.b::before{background:var(--blue);}
-.sc.g::before{background:var(--green);}.sc.o::before{background:var(--orange);}
-.sc.t::before{background:var(--teal);}.sc.p::before{background:var(--purple);}
-.sc.gr::before{background:var(--gray);}
+.sc.a::before,.sc.cr::before{background:var(--amber);}
+.sc.b::before{background:var(--blue);}
+.sc.g::before{background:var(--green);}.sc.r::before,.sc.cr2::before{background:var(--red);}
+.sc.o::before{background:var(--orange);}.sc.t::before{background:var(--teal);}
+.sc.p::before{background:var(--purple);}.sc.gr::before{background:var(--gray);}
 .sn{font-family:var(--fm);font-size:1.55rem;font-weight:600;letter-spacing:.02em;line-height:1;}
-.sc.cr .sn{color:var(--crimson);}.sc.b .sn{color:var(--blue);}
-.sc.g .sn{color:var(--green);}.sc.o .sn{color:var(--orange);}
-.sc.t .sn{color:var(--teal);}.sc.p .sn{color:var(--purple);}
-.sc.gr .sn{color:var(--gray);}
+.sc.a .sn,.sc.cr .sn{color:var(--amber);}.sc.b .sn{color:var(--blue);}
+.sc.g .sn{color:var(--green);}.sc.r .sn,.sc.cr2 .sn{color:var(--red);}
+.sc.o .sn{color:var(--orange);}.sc.t .sn{color:var(--teal);}
+.sc.p .sn{color:var(--purple);}.sc.gr .sn{color:var(--gray);}
 .sl{font-family:var(--fm);font-size:.54rem;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;margin-top:5px;}
 .ss{font-family:var(--fm);font-size:.52rem;color:var(--text4);margin-top:2px;}
 
@@ -73,7 +73,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 .charts-wide{display:grid;grid-template-columns:2fr 1fr;gap:10px;padding-bottom:12px;}
 .cc{background:var(--card);border:1px solid var(--border);padding:16px 18px;border-radius:4px;box-shadow:0 1px 4px rgba(26,22,18,.06);}
 .ct{font-family:var(--fm);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-.ct::before{content:'';width:2px;height:9px;background:var(--crimson);border-radius:1px;}
+.ct::before{content:'';width:2px;height:9px;background:var(--amber);border-radius:1px;}
 .cw{position:relative;height:220px;}
 .cw-tall{position:relative;height:300px;}
 .cw-sm{position:relative;height:180px;}
@@ -91,7 +91,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 .proj-tbl-wrap{overflow-x:auto;}
 .proj-tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;font-family:var(--fm);}
 .proj-tbl th{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:8px 10px;text-align:left;background:var(--el);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;}
-.proj-tbl th:hover{color:var(--crimson);}
+.proj-tbl th:hover{color:var(--amber);}
 .proj-tbl td{font-size:.6rem;color:var(--text2);padding:7px 10px;border-bottom:1px solid rgba(26,22,18,.05);vertical-align:middle;}
 .proj-tbl tr:hover td{background:rgba(238,232,216,.35);}
 .proj-tbl tr:last-child td{border-bottom:none;}
@@ -101,9 +101,9 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 /* ── STATUS BADGES ── */
 .bdg{font-family:var(--fm);font-size:.54rem;font-weight:600;letter-spacing:.05em;padding:2px 8px;border-radius:3px;display:inline-block;}
 .bdg-op{background:rgba(42,122,78,.1);color:var(--green);border:1px solid rgba(42,122,78,.3);}
-.bdg-fid{background:rgba(42,95,168,.1);color:var(--blue);border:1px solid rgba(42,95,168,.3);}
+.bdg-fid{background:rgba(58,112,200,.1);color:var(--blue);border:1px solid rgba(58,112,200,.3);}
 .bdg-con{background:rgba(74,138,184,.1);color:var(--teal);border:1px solid rgba(74,138,184,.3);}
-.bdg-can{background:rgba(184,56,56,.1);color:var(--crimson2);border:1px solid rgba(184,56,56,.3);}
+.bdg-can{background:rgba(184,56,56,.1);color:var(--red);border:1px solid rgba(184,56,56,.3);}
 .bdg-del{background:rgba(196,122,34,.1);color:var(--orange);border:1px solid rgba(196,122,34,.3);}
 .bdg-ann{background:rgba(122,118,116,.1);color:var(--gray);border:1px solid rgba(122,118,116,.3);}
 .bdg-sca{background:rgba(107,74,138,.1);color:var(--purple);border:1px solid rgba(107,74,138,.3);}
@@ -124,7 +124,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 .app-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:8px;}
 .app-lbl{font-family:var(--fm);font-size:.52rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;flex-shrink:0;padding-top:1px;}
 .app-val{font-family:var(--fm);font-size:.6rem;color:var(--text2);text-align:right;line-height:1.45;}
-.app-cost-h2{font-family:var(--fm);font-size:.72rem;font-weight:600;color:var(--crimson);line-height:1;}
+.app-cost-h2{font-family:var(--fm);font-size:.72rem;font-weight:600;color:var(--amber);line-height:1;}
 .app-cost-comp{font-family:var(--fm);font-size:.62rem;color:var(--green);font-weight:600;line-height:1;}
 .app-ratio{font-family:var(--fm);font-size:.55rem;color:var(--text4);margin-top:1px;}
 .app-divider{height:1px;background:var(--border);margin:8px 0;}
@@ -134,13 +134,13 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 
 /* ── CANCELLATIONS TABLE ── */
 .canc-list{display:flex;flex-direction:column;gap:8px;padding-bottom:12px;}
-.canc-item{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--crimson2);border-radius:4px;padding:12px 15px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;}
+.canc-item{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:4px;padding:12px 15px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;}
 .canc-flag{font-size:1.3rem;line-height:1.3;}
 .canc-name{font-family:var(--fs);font-size:.88rem;font-weight:700;color:var(--text);}
 .canc-meta{font-family:var(--fm);font-size:.54rem;color:var(--text3);margin-top:2px;letter-spacing:.05em;}
 .canc-note{font-family:var(--fb);font-size:.65rem;color:var(--text2);margin-top:5px;line-height:1.55;}
 .canc-right{text-align:right;}
-.canc-loss{font-family:var(--fm);font-size:.95rem;font-weight:600;color:var(--crimson);line-height:1;}
+.canc-loss{font-family:var(--fm);font-size:.95rem;font-weight:600;color:var(--amber);line-height:1;}
 .canc-losslbl{font-family:var(--fm);font-size:.48rem;color:var(--text4);letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
 
 /* ── COUNTRY TABLE ── */
@@ -152,7 +152,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgr
 .tbl-wrap{overflow-x:auto;}
 table.main{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
 table.main th{font-family:var(--fm);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:7px 10px;text-align:left;background:var(--el);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;}
-table.main th:hover{color:var(--crimson);}
+table.main th:hover{color:var(--amber);}
 table.main th.sa::after{content:' ↑';}table.main th.sd::after{content:' ↓';}
 table.main td{font-family:var(--fm);font-size:.6rem;color:var(--text2);padding:7px 10px;border-bottom:1px solid rgba(26,22,18,.05);vertical-align:middle;}
 table.main tr:hover td{background:rgba(238,232,216,.35);}
@@ -165,22 +165,22 @@ table.main tr:last-child td{border-bottom:none;}
 .fail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;padding-bottom:14px;}
 .fail-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px 16px;position:relative;overflow:hidden;}
 .fail-card::after{content:attr(data-n);position:absolute;bottom:-12px;right:8px;font-family:var(--fs);font-size:4rem;font-weight:700;color:rgba(139,30,44,.06);line-height:1;pointer-events:none;}
-.fail-rank{font-family:var(--fm);font-size:.5rem;color:var(--crimson);letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;}
+.fail-rank{font-family:var(--fm);font-size:.5rem;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;}
 .fail-title{font-family:var(--fs);font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:6px;}
-.fail-pct{font-family:var(--fm);font-size:1.6rem;font-weight:600;color:var(--crimson);line-height:1;margin-bottom:4px;}
+.fail-pct{font-family:var(--fm);font-size:1.6rem;font-weight:600;color:var(--amber);line-height:1;margin-bottom:4px;}
 .fail-bar{height:4px;background:var(--el);border-radius:2px;overflow:hidden;margin-bottom:8px;}
-.fail-fill{height:100%;background:var(--crimson);border-radius:2px;}
+.fail-fill{height:100%;background:var(--amber);border-radius:2px;}
 .fail-txt{font-family:var(--fb);font-size:.68rem;color:var(--text2);line-height:1.6;}
 
 /* ── COST TIMELINE ── */
 .cost-section{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:16px 18px;margin-bottom:10px;}
 .cost-note{font-family:var(--fb);font-size:.7rem;color:var(--text2);line-height:1.65;background:rgba(139,30,44,.04);border:1px solid rgba(139,30,44,.12);border-radius:4px;padding:12px 14px;margin-top:12px;}
-.cost-note strong{color:var(--crimson);font-weight:600;}
+.cost-note strong{color:var(--amber);font-weight:600;}
 
 /* ── INSIGHT BOXES ── */
 .insight{background:rgba(139,30,44,.05);border:1px solid rgba(139,30,44,.18);border-radius:4px;padding:14px 16px;margin-bottom:10px;}
-.insight-head{font-family:var(--fm);font-size:.54rem;color:var(--crimson);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
-.insight-head::before{content:'';width:2px;height:8px;background:var(--crimson);border-radius:1px;}
+.insight-head{font-family:var(--fm);font-size:.54rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.insight-head::before{content:'';width:2px;height:8px;background:var(--amber);border-radius:1px;}
 .insight-txt{font-family:var(--fb);font-size:.73rem;color:var(--text2);line-height:1.68;}
 
 /* ── FOOTER ── */
@@ -192,13 +192,13 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .cite-section{background:var(--card);border-top:2px solid var(--border);padding:20px 0 18px;}
 .cite-wrap{display:grid;grid-template-columns:auto 1fr 1fr;align-items:start;gap:24px;}
 .cite-eyebrow{display:flex;align-items:center;gap:10px;padding-right:24px;border-right:1px solid var(--border);}
-.cite-glyph{font-family:var(--fs);font-size:2rem;color:var(--crimson);line-height:1;font-style:italic;}
+.cite-glyph{font-family:var(--fs);font-size:2rem;color:var(--amber);line-height:1;font-style:italic;}
 .cite-heading{font-family:var(--fm);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);white-space:nowrap;margin-top:4px;}
-.cite-col-label{font-family:var(--fm);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:7px;}
+.cite-col-label{font-family:var(--fm);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:7px;}
 .cite-formatted{font-family:var(--fb);font-size:.75rem;color:var(--text2);line-height:1.65;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px 14px;}
 .cite-bib{font-family:var(--fm);font-size:.62rem;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px 14px;white-space:pre;overflow-x:auto;line-height:1.7;margin:0;}
 .copy-btn{font-family:var(--fm);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:2px 8px;border-radius:3px;cursor:pointer;transition:all .14s;}
-.copy-btn:hover{border-color:rgba(139,30,44,.4);color:var(--crimson);}
+.copy-btn:hover{border-color:rgba(139,30,44,.4);color:var(--amber);}
 .copy-btn.copied{background:rgba(42,122,78,.07);border-color:rgba(42,122,78,.3);color:var(--green);}
 
 ::-webkit-scrollbar{width:5px;height:5px;}
@@ -213,8 +213,8 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .map-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--border);}
 .map-ctrl-label{font-family:var(--fm);font-size:.55rem;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;margin-right:4px;}
 .mode-btn{font-family:var(--fm);font-size:.56rem;background:var(--bg);border:1px solid var(--border);color:var(--text2);padding:4px 11px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;transition:all .14s;}
-.mode-btn:hover{border-color:rgba(139,30,44,.3);color:var(--crimson);}
-.mode-btn.active{background:rgba(139,30,44,.06);border-color:rgba(139,30,44,.3);color:var(--crimson);}
+.mode-btn:hover{border-color:rgba(139,30,44,.3);color:var(--amber);}
+.mode-btn.active{background:rgba(139,30,44,.06);border-color:rgba(139,30,44,.3);color:var(--amber);}
 .map-hint{font-family:var(--fm);font-size:.54rem;color:var(--text4);margin-left:auto;}
 #mapSvg{display:block;width:100%;height:auto;aspect-ratio:1100/540;min-height:380px;background:var(--bg);}
 .map-legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:8px 16px;border-top:1px solid var(--border);min-height:40px;}
@@ -223,7 +223,7 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .ml-item{display:flex;align-items:center;gap:4px;font-family:var(--fm);font-size:.56rem;color:var(--text2);}
 .ml-dot{width:10px;height:10px;border-radius:1px;flex-shrink:0;}
 .map-tooltip{position:fixed;background:var(--card);border:1px solid var(--border);pointer-events:none;padding:8px 12px;font-family:var(--fm);font-size:.58rem;color:var(--text);z-index:9999;min-width:170px;max-width:280px;line-height:1.55;opacity:0;transition:opacity .1s;border-radius:4px;box-shadow:0 4px 12px rgba(26,22,18,.12);}
-.mtt-name{font-family:var(--fs);font-size:.78rem;font-weight:700;color:var(--crimson);margin-bottom:3px;}
+.mtt-name{font-family:var(--fs);font-size:.78rem;font-weight:700;color:var(--amber);margin-bottom:3px;}
 .mtt-row{display:flex;justify-content:space-between;gap:14px;}
 .mtt-lbl{color:var(--text3);}
 .mtt-val{color:var(--text);font-weight:600;}
@@ -231,9 +231,9 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .country-panel.open{transform:translateX(0);}
 .cp-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:8px;position:sticky;top:0;background:var(--card);z-index:2;}
 .cp-name{font-family:var(--fs);font-size:1.4rem;font-weight:700;letter-spacing:-.01em;color:var(--text);line-height:1.1;}
-.cp-region{font-family:var(--fm);font-size:.55rem;color:var(--crimson);letter-spacing:.14em;text-transform:uppercase;margin-top:3px;}
+.cp-region{font-family:var(--fm);font-size:.55rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-top:3px;}
 .cp-close{background:var(--bg);border:1px solid var(--border);color:var(--text3);font-size:.6rem;padding:3px 8px;cursor:pointer;font-family:var(--fm);border-radius:3px;}
-.cp-close:hover{border-color:rgba(184,56,56,.4);color:var(--crimson2);}
+.cp-close:hover{border-color:rgba(184,56,56,.4);color:var(--red);}
 .cp-body{padding:14px 16px;}
 .cp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .cp-stat{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:9px 11px;}
@@ -248,18 +248,18 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .cp-bar-fill{height:100%;border-radius:3px;}
 
 /* ── UK / RAB CASE STUDY ── */
-.uk-banner{background:linear-gradient(135deg,#fffdf8 0%,#f5e6da 100%);border:1px solid var(--border);border-left:4px solid var(--crimson);border-radius:4px;padding:18px 22px;margin-bottom:14px;position:relative;overflow:hidden;}
+.uk-banner{background:linear-gradient(135deg,#fffdf8 0%,#f5e6da 100%);border:1px solid var(--border);border-left:4px solid var(--amber);border-radius:4px;padding:18px 22px;margin-bottom:14px;position:relative;overflow:hidden;}
 .uk-banner::after{content:'🇬🇧';position:absolute;top:50%;right:20px;transform:translateY(-50%);font-size:5rem;opacity:.15;line-height:1;}
-.uk-banner-eyebrow{font-family:var(--fm);font-size:.55rem;color:var(--crimson);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;}
+.uk-banner-eyebrow{font-family:var(--fm);font-size:.55rem;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;}
 .uk-banner h2{font-family:var(--fs);font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:8px;letter-spacing:-.01em;}
-.uk-banner h2 em{font-style:italic;color:var(--crimson);}
+.uk-banner h2 em{font-style:italic;color:var(--amber);}
 .uk-banner p{font-family:var(--fb);font-size:.78rem;color:var(--text2);line-height:1.65;max-width:80%;}
 
 .rab-explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;padding-bottom:12px;}
-.rab-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px 16px;border-top:3px solid var(--crimson);position:relative;}
+.rab-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px 16px;border-top:3px solid var(--amber);position:relative;}
 .rab-card.ok{border-top-color:var(--green);}
-.rab-card.bad{border-top-color:var(--crimson);}
-.rab-num{font-family:var(--fs);font-size:2rem;font-weight:700;color:var(--crimson);line-height:1;}
+.rab-card.bad{border-top-color:var(--amber);}
+.rab-num{font-family:var(--fs);font-size:2rem;font-weight:700;color:var(--amber);line-height:1;}
 .rab-num.ok{color:var(--green);}
 .rab-tag{font-family:var(--fm);font-size:.5rem;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;margin-top:4px;margin-bottom:8px;}
 .rab-title{font-family:var(--fs);font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:6px;}
@@ -272,47 +272,92 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .risk-row-lbl{font-weight:600;color:var(--text);font-family:var(--fb);font-size:.7rem;}
 .risk-cell{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;}
 .risk-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-.risk-tax{background:rgba(184,56,56,.1);color:var(--crimson);border:1px solid rgba(184,56,56,.3);padding:3px 8px;border-radius:3px;font-weight:600;}
+.risk-tax{background:rgba(184,56,56,.1);color:var(--amber);border:1px solid rgba(184,56,56,.3);padding:3px 8px;border-radius:3px;font-weight:600;}
 .risk-shr{background:rgba(196,122,34,.1);color:var(--orange);border:1px solid rgba(196,122,34,.3);padding:3px 8px;border-radius:3px;font-weight:600;}
 .risk-inv{background:rgba(42,122,78,.1);color:var(--green);border:1px solid rgba(42,122,78,.3);padding:3px 8px;border-radius:3px;font-weight:600;}
 
 .uk-counter{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:18px 22px;margin-bottom:10px;}
-.counter-head{font-family:var(--fm);font-size:.6rem;color:var(--crimson);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;}
+.counter-head{font-family:var(--fm);font-size:.6rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;}
 .counter-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;}
 .counter-side{padding:14px 16px;border-radius:4px;}
 .counter-side.bad{background:rgba(184,56,56,.05);border:1px solid rgba(184,56,56,.2);}
 .counter-side.good{background:rgba(42,122,78,.05);border:1px solid rgba(42,122,78,.2);}
 .counter-vs{font-family:var(--fs);font-size:1.6rem;font-weight:700;color:var(--text3);font-style:italic;}
 .counter-side h4{font-family:var(--fs);font-size:1.15rem;font-weight:700;margin-bottom:8px;line-height:1.2;}
-.counter-side.bad h4{color:var(--crimson);}
+.counter-side.bad h4{color:var(--amber);}
 .counter-side.good h4{color:var(--green);}
 .counter-stat{font-family:var(--fm);font-size:1.4rem;font-weight:600;line-height:1;margin:6px 0;}
-.counter-side.bad .counter-stat{color:var(--crimson);}
+.counter-side.bad .counter-stat{color:var(--amber);}
 .counter-side.good .counter-stat{color:var(--green);}
 .counter-statlbl{font-family:var(--fm);font-size:.5rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;}
 .counter-side ul{list-style:none;padding:0;margin-top:10px;}
 .counter-side li{font-family:var(--fb);font-size:.68rem;color:var(--text2);line-height:1.55;padding:3px 0;padding-left:12px;position:relative;}
-.counter-side.bad li::before{content:'•';position:absolute;left:0;color:var(--crimson);}
+.counter-side.bad li::before{content:'•';position:absolute;left:0;color:var(--amber);}
 .counter-side.good li::before{content:'•';position:absolute;left:0;color:var(--green);}
 
 .timeline{position:relative;padding-left:28px;margin-top:8px;}
 .timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--border);border-radius:1px;}
 .tl-item{position:relative;padding-bottom:14px;}
-.tl-item::before{content:'';position:absolute;left:-26px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--card);border:2px solid var(--crimson);}
+.tl-item::before{content:'';position:absolute;left:-26px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--card);border:2px solid var(--amber);}
 .tl-item.green::before{border-color:var(--green);}
-.tl-date{font-family:var(--fm);font-size:.55rem;color:var(--crimson);letter-spacing:.14em;text-transform:uppercase;font-weight:600;}
+.tl-date{font-family:var(--fm);font-size:.55rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:600;}
 .tl-title{font-family:var(--fs);font-size:.85rem;font-weight:700;color:var(--text);margin-top:2px;}
 .tl-text{font-family:var(--fb);font-size:.68rem;color:var(--text2);line-height:1.55;margin-top:3px;}
 
 .flow-diagram{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:10px;overflow-x:auto;}
 .flow-row{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:max-content;padding:5px 0;}
 .flow-box{font-family:var(--fm);font-size:.6rem;padding:8px 12px;border-radius:3px;border:1px solid var(--border);background:var(--bg);text-align:center;min-width:120px;}
-.flow-box.src{background:rgba(184,56,56,.06);border-color:rgba(184,56,56,.3);color:var(--crimson);font-weight:600;}
+.flow-box.src{background:rgba(184,56,56,.06);border-color:rgba(184,56,56,.3);color:var(--amber);font-weight:600;}
 .flow-box.intermediary{background:rgba(58,112,200,.06);border-color:rgba(58,112,200,.3);color:var(--blue);}
 .flow-box.dest{background:rgba(42,122,78,.06);border-color:rgba(42,122,78,.3);color:var(--green);font-weight:600;}
-.flow-box.dest.bad{background:rgba(184,56,56,.06);border-color:rgba(184,56,56,.3);color:var(--crimson);}
+.flow-box.dest.bad{background:rgba(184,56,56,.06);border-color:rgba(184,56,56,.3);color:var(--amber);}
 .flow-arrow{font-family:var(--fm);color:var(--text3);font-size:1rem;}
 .flow-amount{font-family:var(--fm);font-size:.5rem;color:var(--text3);margin-top:3px;letter-spacing:.05em;}
+/* ── ELECTROLYSER SPOTLIGHT TILES ── */
+.elec-tile{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:4px;display:grid;grid-template-columns:200px 1fr 200px;gap:0;box-shadow:0 1px 4px rgba(26,22,18,.06);overflow:hidden;margin-bottom:8px;}
+.elec-tile-left{padding:16px 18px;border-right:1px solid var(--border);background:rgba(139,30,44,.03);}
+.elec-big{font-family:var(--fm);font-size:2.4rem;font-weight:600;color:var(--amber);line-height:1;letter-spacing:.02em;}
+.elec-label{font-family:var(--fm);font-size:.55rem;color:var(--text3);letter-spacing:.13em;text-transform:uppercase;margin-top:6px;margin-bottom:8px;}
+.elec-sub{font-family:var(--fm);font-size:.6rem;color:var(--text2);line-height:1.6;}
+.elec-tile-center{padding:14px 18px;}
+.elec-bar-title{font-family:var(--fm);font-size:.5rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.elec-bar-row{display:grid;grid-template-columns:190px 1fr 42px;gap:8px;align-items:center;margin-bottom:7px;}
+.elec-bar-label{font-family:var(--fm);font-size:.57rem;color:var(--text2);}
+.elec-bar-track{height:10px;background:var(--el);border-radius:3px;overflow:hidden;}
+.elec-bar-fill{height:100%;border-radius:3px;}
+.elec-bar-pct{font-family:var(--fm);font-size:.6rem;font-weight:600;text-align:right;}
+.elec-note{font-family:var(--fb);font-size:.67rem;color:var(--text3);font-style:italic;margin-top:8px;border-top:1px solid var(--border);padding-top:8px;}
+.elec-tile-right{padding:16px 18px;border-left:1px solid var(--border);background:rgba(26,22,18,.014);}
+.elec-stat-row{display:flex;flex-direction:column;margin-bottom:9px;}
+.elec-stat-val{font-family:var(--fm);font-size:1.15rem;font-weight:600;line-height:1;}
+.elec-stat-lbl{font-family:var(--fm);font-size:.52rem;color:var(--text3);letter-spacing:.07em;margin-top:2px;}
+.elec-stat-divider{height:1px;background:var(--border);margin:8px 0;}
+@media(max-width:900px){.elec-tile{grid-template-columns:1fr;}.elec-tile-left,.elec-tile-right{border:none;border-bottom:1px solid var(--border);}.elec-bar-row{grid-template-columns:130px 1fr 36px;}}
+/* ── QUANTITATIVE FAILURE CARDS ── */
+.qfail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;padding-bottom:12px;}
+.qfail-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px 16px;position:relative;overflow:hidden;}
+.qfail-card::after{content:attr(data-n);position:absolute;bottom:-12px;right:8px;font-family:var(--fs);font-size:4.5rem;font-weight:700;color:rgba(139,30,44,.05);line-height:1;pointer-events:none;}
+.qfail-rank{font-family:var(--fm);font-size:.5rem;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px;}
+.qfail-title{font-family:var(--fs);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.qfail-pct{font-family:var(--fm);font-size:1.7rem;font-weight:600;color:var(--amber);line-height:1;margin-bottom:4px;}
+.qfail-bar{height:4px;background:var(--el);border-radius:2px;overflow:hidden;margin-bottom:10px;}
+.qfail-fill{height:100%;background:var(--amber);border-radius:2px;}
+.qfail-data{background:rgba(26,22,18,.025);border:1px solid rgba(26,22,18,.08);border-radius:3px;padding:8px 10px;margin-bottom:8px;}
+.qfail-data-row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--fm);font-size:.6rem;padding:2px 0;border-bottom:1px solid rgba(26,22,18,.05);}
+.qfail-data-row:last-child{border-bottom:none;}
+.qfail-data-lbl{color:var(--text3);}
+.qfail-data-val{font-weight:600;color:var(--text);}
+.qfail-data-val.bad{color:var(--red);}
+.qfail-data-val.warn{color:var(--orange);}
+.qfail-data-val.good{color:var(--green);}
+.qfail-proof{font-family:var(--fm);font-size:.58rem;color:var(--amber);border-left:2px solid var(--amber);padding-left:8px;margin-top:6px;line-height:1.55;}
+/* ── QUANTITATIVE SCOREBOARD ── */
+.qscore{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;padding-bottom:12px;}
+.qs-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 15px;border-top:2px solid var(--amber);}
+.qs-num{font-family:var(--fm);font-size:1.9rem;font-weight:600;color:var(--amber);line-height:1;letter-spacing:.02em;}
+.qs-num.red{color:var(--red);}.qs-num.grn{color:var(--green);}.qs-num.gry{color:var(--gray);}
+.qs-lbl{font-family:var(--fm);font-size:.54rem;color:var(--text3);letter-spacing:.13em;text-transform:uppercase;margin-top:5px;}
+.qs-sub{font-family:var(--fm);font-size:.52rem;color:var(--text4);margin-top:3px;line-height:1.4;}
 </style>
 </head>
 <body>
@@ -321,7 +366,7 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 <div class="container">
   <div class="hdr">
     <div class="hdr-title">
-      <div style="font-family:var(--fm);font-size:.52rem;color:var(--crimson);letter-spacing:.2em;text-transform:uppercase;margin-bottom:5px;opacity:.85;">Global Power Systems Atlas &nbsp;·&nbsp; Vol. VI</div>
+      <div style="font-family:var(--fm);font-size:.52rem;color:var(--amber);letter-spacing:.2em;text-transform:uppercase;margin-bottom:5px;opacity:.85;">Global Power Systems Atlas &nbsp;·&nbsp; Vol. VI</div>
       <h1><em>⚗</em> Why Hydrogen Failed?</h1>
       <p>A Critical X-Ray of the Global Hydrogen Economy · 2020–2025 · Project Tracker · Cost Reality · Application Viability · Public Money at Risk · S. Küfeoğlu · 2026</p>
     </div>
@@ -356,10 +401,10 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 <div class="container">
 
 <div class="stats" id="statsRow">
-  <div class="sc cr"><div class="sn">1,700+</div><div class="sl">Projects Announced</div><div class="ss">2020–2025 · 7.5× since 2020 · Hydrogen Council Compass 2025</div></div>
+  <div class="sc a"><div class="sn">1,700+</div><div class="sl">Projects Announced</div><div class="ss">2020–2025 · 7.5× since 2020 · Hydrogen Council Compass 2025</div></div>
   <div class="sc b"><div class="sn">$110B</div><div class="sl">Committed (FID+)</div><div class="ss">510 projects past FID · up $35B in 12 months · still &lt;15% of $750B announced</div></div>
   <div class="sc o"><div class="sn">4%</div><div class="sl">On Schedule (2024–25)</div><div class="ss">Of started projects · PIK/IEA · Down from 7% in 2023</div></div>
-  <div class="sc cr"><div class="sn">4.9 Mtpa</div><div class="sl">Cancelled in 2025</div><div class="ss">vs ~1 Mtpa reaching FID — Wood Mackenzie</div></div>
+  <div class="sc r"><div class="sn">4.9 Mtpa</div><div class="sl">Cancelled in 2025</div><div class="ss">vs ~1 Mtpa reaching FID — Wood Mackenzie</div></div>
   <div class="sc gr"><div class="sn">~1%</div><div class="sl">Low-Emission H₂ Share</div><div class="ss">1 Mtpa achieved end-2025 · Fossil H₂ still &gt;99%</div></div>
   <div class="sc o"><div class="sn">$5–9/kg</div><div class="sl">Green H₂ Cost (2025)</div><div class="ss">vs $1.0–1.5/kg grey · 4–6× premium persists</div></div>
   <div class="sc b"><div class="sn">$280B+</div><div class="sl">Public Money Pledged</div><div class="ss">EU, US, Germany, Australia, Japan, India, Korea</div></div>
@@ -367,6 +412,93 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 </div>
 
 <div class="sh"><div class="sh-line"></div><span class="sh-txt">The Hydrogen Hype Cycle — 2020 to 2025</span><div class="sh-line"></div></div>
+
+<!-- ── ELECTROLYSER TILE 1: Utilisation ─────────────────────────────────── -->
+<div class="elec-tile">
+  <div class="elec-tile-left">
+    <div class="elec-big">~10%</div>
+    <div class="elec-label">Electrolyser Factories In Use</div>
+    <div class="elec-sub">China: &gt;20 GW/yr capacity<br>Only ~2 GW demand in 2024<br><span style="color:var(--text4)">IEA Global Hydrogen Review 2025</span></div>
+  </div>
+  <div class="elec-tile-center">
+    <div class="elec-bar-title">Global Manufacturing → Deployment → Productive Capacity Cascade</div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Mfg capacity (30 GW/yr)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:100%;background:#949498;"></div></div>
+      <div class="elec-bar-pct" style="color:var(--text2);">100%</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Deployed in 2024 (~4 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:13%;background:var(--orange);"></div></div>
+      <div class="elec-bar-pct" style="color:var(--orange);">13%</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Installed &amp; operational (~4.5 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:15%;background:var(--teal);"></div></div>
+      <div class="elec-bar-pct" style="color:var(--teal);">15%</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Actually running (avg 35% CF)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:5%;background:var(--red);"></div></div>
+      <div class="elec-bar-pct" style="color:var(--red);">~5%</div>
+    </div>
+    <div class="elec-note">Financial models assume 60–80% capacity factor · Reality: 30–45% · IRENA 2024 survey of operational plants</div>
+  </div>
+  <div class="elec-tile-right">
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--orange);">~13%</span><span class="elec-stat-lbl">Global factory utilisation</span></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">~10%</span><span class="elec-stat-lbl">China factory utilisation</span></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--teal);">35%</span><span class="elec-stat-lbl">Avg capacity factor (actual)</span></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--text3);">70%</span><span class="elec-stat-lbl">Avg capacity factor (modelled)</span></div>
+    <div class="elec-stat-divider"></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">2.1×</span><span class="elec-stat-lbl">Real LCOH vs modelled at 35% vs 70% CF</span></div>
+  </div>
+</div>
+
+<!-- ── ELECTROLYSER TILE 2: Demand vs Proposed Capacity ─────────────────── -->
+<div class="elec-tile" style="margin-top:8px;">
+  <div class="elec-tile-left">
+    <div class="elec-big" style="font-size:1.8rem;">520 GW</div>
+    <div class="elec-label">Announced Pipeline</div>
+    <div class="elec-sub">vs ~4.5 GW operational<br>= <strong style="color:var(--red);">116:1</strong> announced vs built<br><span style="color:var(--text4)">IEA GHR 2024 / Hydrogen Council</span></div>
+  </div>
+  <div class="elec-tile-center">
+    <div class="elec-bar-title">Electrolyser Capacity: Proposed → Real Demand Signal → Built (GW, cumulative to 2025)</div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Announced pipeline (520 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:100%;background:#949498;"></div></div>
+      <div class="elec-bar-pct" style="color:var(--text2);">520 GW</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Government targets require (~190 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:36%;background:var(--blue);"></div></div>
+      <div class="elec-bar-pct" style="color:var(--blue);">36%</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Factory can deliver by 2030 (~150 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:29%;background:#4a8ab8;opacity:.7;"></div></div>
+      <div class="elec-bar-pct" style="color:var(--teal);">29%</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Reached FID (~22 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:4.2%;background:var(--orange);"></div></div>
+      <div class="elec-bar-pct" style="color:var(--orange);">4%</div>
+    </div>
+    <div class="elec-bar-row">
+      <div class="elec-bar-label">Installed &amp; operational (~4.5 GW)</div>
+      <div class="elec-bar-track"><div class="elec-bar-fill" style="width:.87%;background:var(--green);"></div></div>
+      <div class="elec-bar-pct" style="color:var(--green);">&lt;1%</div>
+    </div>
+    <div class="elec-note">Factories have capacity to build 7× more than the committed FID pipeline · Massive structural overcapacity across the industry</div>
+  </div>
+  <div class="elec-tile-right">
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">7.5:1</span><span class="elec-stat-lbl">Factory capacity vs real FID demand</span></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--orange);">23:1</span><span class="elec-stat-lbl">Announced vs FID ratio</span></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--teal);">116:1</span><span class="elec-stat-lbl">Announced vs operational</span></div>
+    <div class="elec-stat-divider"></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">-98%</span><span class="elec-stat-lbl">Plug Power share price (peak → 2025)</span></div>
+    <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">-96%</span><span class="elec-stat-lbl">ITM Power share price (peak → 2025)</span></div>
+  </div>
+</div>
 
 <div class="insight">
   <div class="insight-head">The central finding — end of 2025</div>
@@ -448,7 +580,7 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
     </div>
     <div>
       <div class="cite-col-label">Formatted Citation <button class="copy-btn" onclick="copyOverviewFmt()">Copy</button></div>
-      <div class="cite-formatted" id="overviewFmtCite">Küfeoğlu, S. (2026). <em>Global Power Systems Atlas, Vol. VI — Why Hydrogen Failed?</em> [Interactive web dashboard]. Retrieved from <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--crimson);text-decoration:none;border-bottom:1px dotted var(--crimson);">https://kufeoglu.github.io/hydrogen/</a></div>
+      <div class="cite-formatted" id="overviewFmtCite">Küfeoğlu, S. (2026). <em>Global Power Systems Atlas, Vol. VI — Why Hydrogen Failed?</em> [Interactive web dashboard]. Retrieved from <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--amber);text-decoration:none;border-bottom:1px dotted var(--amber);">https://kufeoglu.github.io/hydrogen/</a></div>
       <div style="font-family:var(--fm);font-size:.6rem;color:var(--text3);margin-top:8px;letter-spacing:.04em;">Also available on Google Scholar · DOI registered · Part of the Global Power Systems Atlas series</div>
 
       <div style="margin-top:16px;">
@@ -475,9 +607,9 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
             <span>— Global Energy Storage &amp; Flexibility</span>
             <a href="https://kufeoglu.github.io/storage/" style="color:var(--blue);text-decoration:none;font-size:.62rem;">kufeoglu.github.io/storage/</a>
 
-            <span style="color:var(--crimson);font-weight:700;letter-spacing:.04em;">Vol. VI</span>
+            <span style="color:var(--amber);font-weight:700;letter-spacing:.04em;">Vol. VI</span>
             <span style="color:var(--text);font-weight:600;">— Why Hydrogen Failed?</span>
-            <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--crimson);text-decoration:none;font-size:.62rem;font-weight:600;">kufeoglu.github.io/hydrogen/</a>
+            <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--amber);text-decoration:none;font-size:.62rem;font-weight:600;">kufeoglu.github.io/hydrogen/</a>
           </div>
         </div>
       </div>
@@ -650,11 +782,90 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 <!-- ══════════════════════════════════════════════════ WHY FAILS TAB ══ -->
 <div id="tab-failures" class="tab-section">
 <div class="container">
-<div class="sh"><div class="sh-line"></div><span class="sh-txt">Root Causes of Hydrogen Project Failure — Evidence-Based Analysis</span><div class="sh-line"></div></div>
 
-<div class="fail-grid" id="failGrid"></div>
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">Why Hydrogen Projects Fail — Quantitative Autopsy · 2020–2025 Evidence Base</span><div class="sh-line"></div></div>
 
-<div class="sh"><div class="sh-line"></div><span class="sh-txt">The Public Money Problem</span><div class="sh-line"></div></div>
+<!-- SCOREBOARD -->
+<div class="qscore">
+  <div class="qs-card"><div class="qs-num red">~0%</div><div class="qs-lbl">H₂ cost learning rate</div><div class="qs-sub">2020–2025 LCOH essentially flat. Solar fell 30%, batteries 20%, in same period.</div></div>
+  <div class="qs-card"><div class="qs-num red">~10%</div><div class="qs-lbl">Electrolyser factory use</div><div class="qs-sub">China: &gt;20 GW/yr capacity vs ~2 GW demand. Structural overcapacity crisis.</div></div>
+  <div class="qs-card"><div class="qs-num red">4%</div><div class="qs-lbl">Projects on schedule</div><div class="qs-sub">PIK/IEA 2024. Down from 7% in 2023. Declining, not improving.</div></div>
+  <div class="qs-card"><div class="qs-num red">4.9:1</div><div class="qs-lbl">Cancellation / FID ratio</div><div class="qs-sub">4.9 Mtpa cancelled for every 1 Mtpa FID reached in 2025 alone.</div></div>
+  <div class="qs-card"><div class="qs-num red">-98%</div><div class="qs-lbl">Plug Power share price</div><div class="qs-sub">$69 peak (Jan 2021) → ~$1.50 (2025). ITM Power: -96%. Nel: -84%.</div></div>
+  <div class="qs-card"><div class="qs-num red">$280k/t</div><div class="qs-lbl">Public spend per tonne H₂</div><div class="qs-sub">$280B pledged → 1 Mtpa achieved. Same $1B buys 125,000 heat pumps.</div></div>
+  <div class="qs-card"><div class="qs-num red">3%</div><div class="qs-lbl">EU target delivery rate</div><div class="qs-sub">10 Mt EU 2030 target → 0.3 Mt committed. Germany, Australia also at 3%.</div></div>
+  <div class="qs-card"><div class="qs-num red">35%</div><div class="qs-lbl">Actual capacity factor</div><div class="qs-sub">vs 60–80% modelled. At 35% CF, LCOH is 2.1× the financial model assumption.</div></div>
+</div>
+
+<!-- LEARNING CURVES -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">1. The Learning Curve Indictment — Technology Cost Trajectories 2010–2025</span><div class="sh-line"></div></div>
+<div class="cc" style="padding:16px 18px;margin-bottom:10px;">
+  <div class="ct">Cost Reduction Index (2010 = 100) — Solar PV · Batteries · Wind · Electrolyser CapEx · Green H₂ LCOH</div>
+  <div style="height:280px;"><canvas id="chartLearning"></canvas></div>
+  <div style="font-family:var(--fb);font-size:.7rem;color:var(--text2);line-height:1.65;margin-top:12px;padding:10px 14px;background:rgba(139,30,44,.04);border:1px solid rgba(139,30,44,.15);border-radius:4px;">
+    <strong>The single most damning chart in the hydrogen debate.</strong> Solar PV has fallen 96% since 2010 (learning rate ~28% per doubling of cumulative capacity). Li-ion batteries fell 90% (learning rate ~18%). Onshore wind fell 55% (learning rate ~8%). Electrolyser CapEx (outside China) fell ~30% in 15 years — a ~4% learning rate, the slowest of any modern energy technology. Green hydrogen LCOH is essentially <strong>flat since 2020, and actually higher than 2022</strong> (when gas price normalisation widened the gap with grey H₂). The reason: green H₂ cost depends primarily on electricity price (~55% of LCOH), which has not followed a steady learning curve, and electrolyser cost (~25%), which reduces far too slowly to offset electricity cost volatility. Unlike solar panels or battery cells, electrolysers are large integrated systems with thousands of components — they do not benefit from the same repetitive manufacturing learning as commodity modules.
+  </div>
+</div>
+
+<!-- QUANTITATIVE ROOT CAUSE CARDS -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">2. Root Causes — Quantitative Evidence Cards</span><div class="sh-line"></div></div>
+<div class="qfail-grid" id="qfailGrid"></div>
+
+<!-- GOVERNMENT TARGETS vs DELIVERY -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">3. Government Targets vs Committed Delivery — 2030 Scorecard</span><div class="sh-line"></div></div>
+<div class="cc" style="margin-bottom:10px;">
+  <div class="ct">2030 H₂ Production Target vs Committed (FID+) · Mtpa · Delivery Rate %</div>
+  <div style="height:280px;"><canvas id="chartTargetDelivery"></canvas></div>
+</div>
+
+<!-- MARKET PENETRATION -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">4. Market Penetration Reality — Actual 2025 vs 2030 Projections Made in 2021</span><div class="sh-line"></div></div>
+<div class="charts-2">
+  <div class="cc">
+    <div class="ct">Actual H₂ Penetration 2025 vs 2021 Projections (% of total sector)</div>
+    <div class="cw-tall"><canvas id="chartPenetration"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="ct">LCOH Sensitivity to Capacity Factor — 3 Electricity Scenarios ($/kg)</div>
+    <div class="cw-tall"><canvas id="chartCFTrap"></canvas></div>
+  </div>
+</div>
+
+<!-- CANCELLATION ECONOMICS -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">5. Cancellation Cascade — Annual FID vs Cancellation (Mtpa announced capacity)</span><div class="sh-line"></div></div>
+<div class="charts-2">
+  <div class="cc">
+    <div class="ct">Cumulative FID vs Cumulative Cancellations (Mtpa) · 2020–2025</div>
+    <div class="cw"><canvas id="chartCancelCascade"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="ct">$1 Billion of Public Money — Decarbonisation Outcomes Compared</div>
+    <div class="cw"><canvas id="chartPublicROI"></canvas></div>
+  </div>
+</div>
+
+<!-- INDUSTRY DISTRESS TABLE -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">6. Electrolyser Industry Financial Distress — Listed Companies</span><div class="sh-line"></div></div>
+<div class="tbl-wrap" style="margin-bottom:12px;">
+<table class="main">
+  <thead><tr>
+    <th>Company</th><th>Country</th><th>Peak Share Price</th><th>Price (2025)</th><th>Change</th><th>Peak Mkt Cap</th><th>2025 Revenue</th><th>Status (2025)</th>
+  </tr></thead>
+  <tbody>
+    <tr><td><strong>Plug Power</strong></td><td>🇺🇸 USA</td><td style="color:var(--green);">$69.00 (Jan 2021)</td><td>~$1.50</td><td style="color:var(--red);font-weight:700;">−98%</td><td>~$42B</td><td>~$680M (est)</td><td><span class="bdg bdg-can">Going concern warning · restructuring</span></td></tr>
+    <tr><td><strong>ITM Power</strong></td><td>🇬🇧 UK</td><td style="color:var(--green);">£6.50 (Feb 2021)</td><td>~£0.24</td><td style="color:var(--red);font-weight:700;">−96%</td><td>~£4.5B</td><td>~£25M</td><td><span class="bdg bdg-can">Multiple capital raises · losses widen</span></td></tr>
+    <tr><td><strong>Nel ASA</strong></td><td>🇳🇴 Norway</td><td style="color:var(--green);">25 NOK (Nov 2020)</td><td>~4 NOK</td><td style="color:var(--red);font-weight:700;">−84%</td><td>~$3.5B</td><td>~$190M</td><td><span class="bdg bdg-del">Restructuring · revenue down 40%</span></td></tr>
+    <tr><td><strong>Bloom Energy</strong></td><td>🇺🇸 USA</td><td style="color:var(--green);">$45 (Feb 2021)</td><td>~$18</td><td style="color:var(--orange);font-weight:700;">−60%</td><td>~$9B</td><td>~$390M</td><td><span class="bdg bdg-del">Profitable but scaled back H₂ ambitions</span></td></tr>
+    <tr><td><strong>Verdagy</strong></td><td>🇺🇸 USA</td><td style="color:var(--green);">Private (raised $74M)</td><td>—</td><td style="color:var(--red);font-weight:700;">−100%</td><td>—</td><td>$0</td><td><span class="bdg bdg-can">Shut down 2024 · assets sold</span></td></tr>
+    <tr><td><strong>McPhy Energy</strong></td><td>🇫🇷 France</td><td style="color:var(--green);">€22 (Feb 2021)</td><td>~€0.90</td><td style="color:var(--red);font-weight:700;">−96%</td><td>~€700M</td><td>~€20M</td><td><span class="bdg bdg-can">Operations suspended 2024</span></td></tr>
+    <tr><td><strong>ThyssenKrupp Nucera</strong></td><td>🇩🇪 Germany</td><td style="color:var(--green);">€25 (IPO Jul 2023)</td><td>~€7</td><td style="color:var(--red);font-weight:700;">−72%</td><td>~€3.4B</td><td>~€130M</td><td><span class="bdg bdg-del">Revenue guidance cut · order delays</span></td></tr>
+    <tr><td><strong>Sunfire GmbH</strong></td><td>🇩🇪 Germany</td><td style="color:var(--green);">Private (raised €500M+)</td><td>—</td><td style="color:var(--orange);font-weight:700;">—</td><td>—</td><td>—</td><td><span class="bdg bdg-del">Seeking strategic buyer 2025</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- PUBLIC MONEY & RECOMMENDATIONS -->
+<div class="sh"><div class="sh-line"></div><span class="sh-txt">7. The Public Money Problem &amp; Recommendations</span><div class="sh-line"></div></div>
 
 <div class="charts-wide">
   <div class="cc">
@@ -662,14 +873,14 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
     <div class="cw-tall"><canvas id="chartPublicMoney"></canvas></div>
   </div>
   <div class="cc">
-    <div class="ct">Return on Public Investment — How Much H₂ Per $1B of Subsidy</div>
+    <div class="ct">Return on Public Investment — $B per Mtpa of low-emission H₂ achieved</div>
     <div class="cw-tall"><canvas id="chartROI"></canvas></div>
   </div>
 </div>
 
 <div class="insight" style="border-color:rgba(184,56,56,.35);background:rgba(184,56,56,.05);">
-  <div class="insight-head" style="color:var(--crimson2);">Protection of public funds — key recommendations</div>
-  <div class="insight-txt">Based on the evidence reviewed: <strong>(1) Require demonstrated offtake agreements before public co-investment.</strong> Over 80% of cancelled projects had no binding buyer — public funders were de facto financing speculative announcements. <strong>(2) Apply technology-neutral decarbonisation tenders</strong> rather than hydrogen-specific subsidies; in most sectors (heating, light vehicles, grid storage), direct electrification outperforms hydrogen on cost and efficiency. <strong>(3) Distinguish industrial feedstock from energy carrier use cases.</strong> Hydrogen in ammonia/fertiliser, oil refining, and steel DRI represents genuine hard-to-abate demand; hydrogen in heating, light vehicles, or grid storage competes with far cheaper alternatives. <strong>(4) Require independent cost audits</strong> of LCOH projections submitted in public funding applications — project developers consistently understate costs by 40–60%. <strong>(5) Establish sunset clauses</strong> on hydrogen-specific subsidies tied to cost milestones; subsidies that persist regardless of cost-competitiveness progress are a fiscal risk.</div>
+  <div class="insight-head" style="color:var(--red);">Five evidence-based recommendations to protect public funds</div>
+  <div class="insight-txt"><strong>(1) No subsidy without binding offtake.</strong> &gt;80% of cancelled projects had zero binding buyers. Require signed 10-year offtake contracts covering ≥50% of nameplate capacity before any public co-investment. <strong>(2) Technology-neutral tendering.</strong> In heating (heat pumps 9× cheaper), light vehicles (BEV 4.5× cheaper), grid storage (BESS 1.7× cheaper), direct electrification wins on every metric. Ring-fence hydrogen subsidies to industrial feedstock only. <strong>(3) Sunset clauses tied to LCOH milestones.</strong> If green H₂ does not reach &lt;$3/kg by 2028 or &lt;$2/kg by 2032, all production subsidies terminate automatically. <strong>(4) Independent cost audits.</strong> PIK/IEA show developer LCOH estimates are 40–60% too low. All HAR/HPBM/ARRA bids should require third-party validated cost models before award. <strong>(5) Annual Parliamentary/Congressional review.</strong> The $280k/tonne public cost-per-unit metric should be published annually, alongside cumulative levy commitments, to make the scale of exposure visible to elected representatives and citizens.</div>
 </div>
 
 </div>
@@ -1026,7 +1237,7 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 </div>
 
 <div class="insight" style="border-color:rgba(184,56,56,.35);background:rgba(184,56,56,.05);margin-top:14px;">
-  <div class="insight-head" style="color:var(--crimson2);">Final assessment of the UK approach</div>
+  <div class="insight-head" style="color:var(--red);">Final assessment of the UK approach</div>
   <div class="insight-txt">The UK's hydrogen policy architecture — DESNZ-Ofgem RAB regulation, the HPBM/HTBM/HSBM/H2P quadrilogy, the Gas Shipper Obligation — is a textbook example of how to expose public finances to an unproven technology while delivering negligible decarbonisation value. The model treats hydrogen as if it were the next national grid; in reality, it is closer to a chemical commodity with niche industrial applications. Every cancellation listed in the timeline above (H2Teesside, ArcelorMittal Duisburg, Norway parallels, BP exit, H2NE trial) confirms that the underlying economics do not work — and crucially, <strong>they do not work even with the level of subsidy already committed</strong>. The HAR1 strike price of £241/MWh is not a transitional figure. It is the floor at which the industry can operate <em>today</em>, after several years of cost reduction, with electrolyser CapEx now declining slowly. <strong>Public funds are being committed to a technology that competes against electrification on every metric and loses on most.</strong> The case for radical retrenchment — concentrating remaining subsidy on industrial feedstock, abandoning the RAB framework for transport and storage, and freezing the GSO until binding offtake exceeds £150M/year of demonstrated demand — is overwhelming.</div>
 </div>
 
@@ -1089,7 +1300,7 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
     </div>
     <div>
       <div class="cite-col-label">Formatted Citation <button class="copy-btn" onclick="copyFmt()">Copy</button></div>
-      <div class="cite-formatted" id="fmtCite">Küfeoğlu, S. (2026). <em>Global Power Systems Atlas, Vol. VI — Why Hydrogen Failed?</em> [Interactive web dashboard]. Retrieved from <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--crimson);text-decoration:none;border-bottom:1px dotted var(--crimson);">https://kufeoglu.github.io/hydrogen/</a></div>
+      <div class="cite-formatted" id="fmtCite">Küfeoğlu, S. (2026). <em>Global Power Systems Atlas, Vol. VI — Why Hydrogen Failed?</em> [Interactive web dashboard]. Retrieved from <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--amber);text-decoration:none;border-bottom:1px dotted var(--amber);">https://kufeoglu.github.io/hydrogen/</a></div>
       <div style="font-family:var(--fm);font-size:.6rem;color:var(--text3);margin-top:8px;letter-spacing:.04em;">Also available on Google Scholar · DOI registered · Part of the Global Power Systems Atlas series</div>
 
       <div style="margin-top:16px;">
@@ -1116,9 +1327,9 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
             <span>— Global Energy Storage &amp; Flexibility</span>
             <a href="https://kufeoglu.github.io/storage/" style="color:var(--blue);text-decoration:none;font-size:.62rem;">kufeoglu.github.io/storage/</a>
 
-            <span style="color:var(--crimson);font-weight:700;letter-spacing:.04em;">Vol. VI</span>
+            <span style="color:var(--amber);font-weight:700;letter-spacing:.04em;">Vol. VI</span>
             <span style="color:var(--text);font-weight:600;">— Why Hydrogen Failed?</span>
-            <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--crimson);text-decoration:none;font-size:.62rem;font-weight:600;">kufeoglu.github.io/hydrogen/</a>
+            <a href="https://kufeoglu.github.io/hydrogen/" style="color:var(--amber);text-decoration:none;font-size:.62rem;font-weight:600;">kufeoglu.github.io/hydrogen/</a>
           </div>
         </div>
       </div>
@@ -1222,8 +1433,8 @@ const projCan       = [4,   18,  55,  140, 280, 360];
 
 // Funnel data — end of 2025
 const funnelData = [
-  {label:'Announced (total)',val:1700,pct:100,color:'#7a7674'},
-  {label:'Received any funding',val:780,pct:45.9,color:'#2a5fa8'},
+  {label:'Announced (total)',val:1700,pct:100,color:'#949498'},
+  {label:'Received any funding',val:780,pct:45.9,color:'#3a70c8'},
   {label:'Reached FID',val:510,pct:30.0,color:'#4a8ab8'},
   {label:'Under construction',val:275,pct:16.2,color:'#c47a22'},
   {label:'Operational',val:235,pct:13.8,color:'#2a7a4e'},
@@ -1271,12 +1482,12 @@ const elecCapexExpected= [null, null, null, null, null, null,  200]; // what IEA
 // Fuel cost comparison (USD/kg energy equivalent)
 const fuels      = ['Grey H₂','Brown H₂','Nat. gas','Blue H₂','Diesel','Green H₂ best','Green H₂ avg','Green H₂ Eur'];
 const fuelCosts  = [1.1, 0.9, 0.8, 1.8, 1.2, 3.5, 5.0, 6.5];
-const fuelColors = ['#968b76','#7a7674','#2a5fa8','#4a8ab8','#52483e','#c47a22','#b83838','#8b1e2c'];
+const fuelColors = ['#968b76','#949498','#3a70c8','#4a8ab8','#52483e','#c47a22','#b83838','#8b1e2c'];
 
 // Transport cost per 100 km (USD)
 const transVeh  = ['Diesel truck','BEV truck','H₂ FCEV truck','Diesel car','BEV car','H₂ FCEV car'];
 const transKm   = [8.5, 5.5, 18, 7, 3.5, 15];
-const transCol  = ['#968b76','#2a7a4e','#b83838','#7a7674','#2a5fa8','#8b1e2c'];
+const transCol  = ['#968b76','#2a7a4e','#b83838','#949498','#3a70c8','#8b1e2c'];
 
 // Heating cost €/MWh
 const heatSys    = ['Gas boiler','Air-source HP','Ground-source HP','H₂ boiler (grey)','H₂ boiler (green)','District heat'];
@@ -1454,8 +1665,8 @@ function buildOverviewCharts(){
   new Chart(document.getElementById('chartGrowth'),{type:'bar',data:{
     labels:years,
     datasets:[
-      {label:'Announced (cumulative)',data:projAnnounced,backgroundColor:'rgba(122,118,116,.5)',borderColor:'#7a7674',borderWidth:1,borderRadius:2},
-      {label:'Reached FID (cumulative)',data:projFID,backgroundColor:'rgba(42,95,168,.6)',borderColor:'#2a5fa8',borderWidth:1,borderRadius:2},
+      {label:'Announced (cumulative)',data:projAnnounced,backgroundColor:'rgba(122,118,116,.5)',borderColor:'#949498',borderWidth:1,borderRadius:2},
+      {label:'Reached FID (cumulative)',data:projFID,backgroundColor:'rgba(58,112,200,.6)',borderColor:'#3a70c8',borderWidth:1,borderRadius:2},
       {label:'Operational (cumulative)',data:projOp,backgroundColor:'rgba(42,122,78,.7)',borderColor:'#2a7a4e',borderWidth:1,borderRadius:2},
       {label:'Cancelled (cumulative)',data:projCan,backgroundColor:'rgba(184,56,56,.6)',borderColor:'#b83838',borderWidth:1,borderRadius:2},
     ]
@@ -1480,7 +1691,7 @@ function buildOverviewCharts(){
     labels:years,
     datasets:[
       {label:'Public $B',data:fundingPublic,backgroundColor:'rgba(139,30,44,.65)',borderWidth:0,borderRadius:2},
-      {label:'Private $B',data:fundingPrivate,backgroundColor:'rgba(42,95,168,.6)',borderWidth:0,borderRadius:2},
+      {label:'Private $B',data:fundingPrivate,backgroundColor:'rgba(58,112,200,.6)',borderWidth:0,borderRadius:2},
     ]
   },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}}},scales:{x:{stacked:true,ticks:{font:{size:9}},grid:{display:false}},y:{stacked:true,ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'$B cumulative',font:{size:9}}}}}});
 
@@ -1488,8 +1699,8 @@ function buildOverviewCharts(){
   new Chart(document.getElementById('chartElec'),{type:'line',data:{
     labels:years,
     datasets:[
-      {label:'Announced (GW)',data:elecAnn,borderColor:'#7a7674',backgroundColor:'rgba(122,118,116,.07)',borderWidth:1.5,pointRadius:3,fill:true,tension:.3},
-      {label:'FID reached (GW)',data:elecFID,borderColor:'#2a5fa8',backgroundColor:'rgba(42,95,168,.07)',borderWidth:1.5,pointRadius:3,fill:true,tension:.3},
+      {label:'Announced (GW)',data:elecAnn,borderColor:'#949498',backgroundColor:'rgba(122,118,116,.07)',borderWidth:1.5,pointRadius:3,fill:true,tension:.3},
+      {label:'FID reached (GW)',data:elecFID,borderColor:'#3a70c8',backgroundColor:'rgba(58,112,200,.07)',borderWidth:1.5,pointRadius:3,fill:true,tension:.3},
       {label:'Under construction (GW)',data:elecBlt,borderColor:'#c47a22',borderWidth:1.5,pointRadius:3,tension:.3},
       {label:'Operational (GW)',data:elecOp,borderColor:'#2a7a4e',borderWidth:1.5,pointRadius:3,tension:.3},
     ]
@@ -1504,7 +1715,7 @@ function buildOverviewCharts(){
   // Cancel reasons donut
   new Chart(document.getElementById('chartCancelReason'),{type:'doughnut',data:{
     labels:cancelReasons,
-    datasets:[{data:cancelPct,backgroundColor:['#8b1e2c','#b83838','#c47a22','#2a5fa8','#4a8ab8','#2a7a4e','#7a7674','#c9bfa6'],borderWidth:1,borderColor:'#fffdf8'}]
+    datasets:[{data:cancelPct,backgroundColor:['#8b1e2c','#b83838','#c47a22','#3a70c8','#4a8ab8','#2a7a4e','#949498','#c9bfa6'],borderWidth:1,borderColor:'#fffdf8'}]
   },options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{font:{size:8},padding:6,boxWidth:10}}}}});
 }
 
@@ -1512,7 +1723,7 @@ function buildCostCharts(){
   new Chart(document.getElementById('chartCostTimeline'),{type:'line',data:{
     labels:costYears,
     datasets:[
-      {label:'Grey H₂ (SMR, $/kg)',data:costGrey,borderColor:'#7a7674',borderWidth:2,pointRadius:3,tension:.3},
+      {label:'Grey H₂ (SMR, $/kg)',data:costGrey,borderColor:'#949498',borderWidth:2,pointRadius:3,tension:.3},
       {label:'Brown H₂ (coal, $/kg)',data:costBrown,borderColor:'#52483e',borderWidth:2,pointRadius:3,tension:.3,borderDash:[4,2]},
       {label:'Blue H₂ (SMR+CCS, $/kg)',data:costBlue,borderColor:'#4a8ab8',borderWidth:2,pointRadius:3,tension:.3},
       {label:'Green H₂ global avg ($/kg)',data:costGreen,borderColor:'#b83838',borderWidth:2.5,pointRadius:4,tension:.3},
@@ -1524,7 +1735,7 @@ function buildCostCharts(){
   // Cost breakdown donut (green H2 2025, $/kg)
   new Chart(document.getElementById('chartCostBreak'),{type:'doughnut',data:{
     labels:['Electricity (50%)','Electrolyser CapEx (22%)','O&M (8%)','Water & balance (5%)','Land & infra (5%)','Finance cost (10%)'],
-    datasets:[{data:[50,22,8,5,5,10],backgroundColor:['#8b1e2c','#b83838','#c47a22','#4a8ab8','#2a5fa8','#7a7674'],borderWidth:1,borderColor:'#fffdf8'}]
+    datasets:[{data:[50,22,8,5,5,10],backgroundColor:['#8b1e2c','#b83838','#c47a22','#4a8ab8','#3a70c8','#949498'],borderWidth:1,borderColor:'#fffdf8'}]
   },options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:8.5},padding:6,boxWidth:10}}}}});
 
   // Regional costs
@@ -1538,7 +1749,7 @@ function buildCostCharts(){
     labels:elecCapexYears,
     datasets:[
       {label:'Western electrolyser $/kW',data:elecCapexWest,borderColor:'#8b1e2c',borderWidth:2,pointRadius:3,tension:.3},
-      {label:'Chinese electrolyser $/kW',data:elecCapexChina,borderColor:'#2a5fa8',borderWidth:2,pointRadius:3,tension:.3},
+      {label:'Chinese electrolyser $/kW',data:elecCapexChina,borderColor:'#3a70c8',borderWidth:2,pointRadius:3,tension:.3},
       {label:'IEA 2021 projected target $/kW',data:elecCapexExpected,borderColor:'#2a7a4e',borderWidth:1.5,borderDash:[4,3],pointRadius:4,tension:.3},
     ]
   },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}}},scales:{x:{ticks:{font:{size:9}},grid:{display:false}},y:{ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'USD/kW',font:{size:9}}}}}});
@@ -1626,7 +1837,7 @@ function buildUKCharts(){
     ],
     datasets:[{
       data:[62, 4.5, 3, 12, 14, 4.5],
-      backgroundColor:['#8b1e2c','#c47a22','#7a7674','#4a8ab8','#b83838','#2a7a4e'],
+      backgroundColor:['#8b1e2c','#c47a22','#949498','#4a8ab8','#b83838','#2a7a4e'],
       borderWidth:1,borderColor:'#fffdf8'
     }]
   },options:{responsive:true,maintainAspectRatio:false,cutout:'48%',plugins:{
@@ -1777,8 +1988,8 @@ function renderProjTbl(){
       <td style="font-size:.58rem;color:var(--text3);">${d.region}</td>
       <td style="font-size:.58rem;">${d.type}</td>
       <td style="font-size:.58rem;">${d.capacity}</td>
-      <td style="color:var(--crimson);font-weight:600;">$${d.invest}B</td>
-      <td style="color:${d.public_pct>50?'var(--crimson)':'var(--text2)'};">${d.public_pct}%</td>
+      <td style="color:var(--amber);font-weight:600;">$${d.invest}B</td>
+      <td style="color:${d.public_pct>50?'var(--amber)':'var(--text2)'};">${d.public_pct}%</td>
       <td><span class="bdg ${statusBdg[d.status]||'bdg-ann'}">${d.status}</span></td>
       <td>${d.year_ann}</td>
       <td style="font-size:.56rem;color:var(--text3);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.note}</td>
@@ -1823,18 +2034,135 @@ function renderCtryTbl(){
       <td style="color:var(--blue);font-weight:600;">${d.proj_fid}</td>
       <td style="color:var(--green);font-weight:600;">${d.proj_op}</td>
       <td>
-        <span style="color:var(--crimson);font-weight:600;">${d.proj_can}</span>
-        <div class="td-bar-wrap"><div class="td-track"><div class="td-fill" style="width:${d.proj_can/maxCan*100}%;background:var(--crimson);"></div></div></div>
+        <span style="color:var(--amber);font-weight:600;">${d.proj_can}</span>
+        <div class="td-bar-wrap"><div class="td-track"><div class="td-fill" style="width:${d.proj_can/maxCan*100}%;background:var(--amber);"></div></div></div>
       </td>
       <td>
-        <span style="color:var(--crimson);font-weight:600;">$${d.public_bn}B</span>
-        <div class="td-bar-wrap"><div class="td-track"><div class="td-fill" style="width:${d.public_bn/maxPub*100}%;background:var(--crimson);"></div></div></div>
+        <span style="color:var(--amber);font-weight:600;">$${d.public_bn}B</span>
+        <div class="td-bar-wrap"><div class="td-track"><div class="td-fill" style="width:${d.public_bn/maxPub*100}%;background:var(--amber);"></div></div></div>
       </td>
       <td style="color:var(--blue);">$${d.private_bn}B</td>
       <td style="font-size:.6rem;">${d.target_mtpa} Mtpa</td>
       <td>${verdBdg(d.verdict)}</td>
       <td style="font-size:.56rem;color:var(--text3);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.note}</td>
     </tr>`).join('');
+}
+
+// ── QUANTITATIVE ROOT CAUSE CARDS ────────────────────────────────────────────
+const QFAIL_DATA = [
+  {n:1,title:'No Offtake / Demand Failure',pct:34,
+   rows:[['Cancellations citing "no buyers"','>60% of all cases'],['HAR1 offtakers: withdrew mid-negotiation','Multiple projects'],['New offtake signed in 2024','1.7 Mtpa (down from 2.4 in 2023)'],['Share needing govt mandate to sign','~80% of all firm offtake']],
+   proof:'IEA: "Without clear demand signals, production assets risk remaining underused or stranded." 70% of all binding offtake is refining/ammonia — existing demand, not new applications.'},
+  {n:2,title:'Policy & Regulatory Uncertainty',pct:22,
+   rows:[['US 45V tax credit: delay to final rules','3 years (2022 → Jan 2025)'],['EU RED Delegated Acts: delay','18+ months'],['Germany H₂ core network law','Passed Dec 2024 (3 years late)'],['Each year of delay adds to project timeline','2–3 years compounded']],
+   proof:'PIK finding: only 4% of projects finished on schedule in 2024 — down from 7% in 2023. Regulatory delay is the dominant cause.'},
+  {n:3,title:'Uneconomic Production Costs',pct:18,
+   rows:[['Green H₂ LCOH (global avg, 2025)','$5.2/kg'],['Grey H₂ LCOH (2025)','$1.2/kg'],['Cost gap: 2025 vs 2022 energy crisis','$4.0/kg vs $2.5/kg (WIDER now)'],['DOE Earthshot $1/kg target (2030)','Requires −80% from today; unrealistic']],
+   proof:'Gas price normalisation 2023–25 widened the competitiveness gap, not narrowed it. Green H₂ LCOH is essentially flat 2020–2025 — a ~0% learning rate — while all competing technologies fell sharply.'},
+  {n:4,title:'Private Finance Failure',pct:11,
+   rows:[['$750B announced → $110B FID','14.7% conversion rate'],['Pure private equity (no public money)','<5% of total committed capital'],['WACC for H₂ projects','10–14% vs 3–5% mature utilities'],['Plug Power: equity raised 2021–24','~$2B raised · still unprofitable'],['Listed electrolyser sector losses 2024','Combined ~$1.8B operating loss']],
+   proof:'Every large FID project requires government grants, tax credits, or state-owned developer balance sheets. Private capital alone has funded essentially zero large-scale green H₂ production.'},
+  {n:5,title:'Permitting & Timeline Overrun',pct:7,
+   rows:[['Avg EU H₂ project permitting time','4–7 years'],['H₂ projects past target op date (IEA 2025)','>50% delayed'],['Avg delay vs original target COD','2.3 years additional'],['2021 "ready by 2025" projects: actual COD','2028–2030 (estimate)']],
+   proof:'IEA GHR 2025: "Delays are particularly acute among electrolyser projects, many of which had announced very ambitious timelines for a technology not previously deployed at large scale."'},
+  {n:6,title:'Electricity Cost Trap',pct:4,
+   rows:[['Every +$10/MWh electricity adds to LCOH','+$0.50–0.60/kg'],['EU industrial electricity (2025)','€90–130/MWh'],['UK industrial electricity (2025)','£100–150/MWh'],['LCOH at £120/MWh electricity','£7.5–9.5/kg'],['Electricity price needed for competitiveness','<$15–20/MWh (rarely available reliably)']],
+   proof:'UK HAR1 strike price of £241/MWh (≈£8/kg) reflects British electricity costs accurately, not developer inefficiency. Competitive green H₂ in the UK requires electricity at near-zero cost — structurally impossible on a reliable basis.'},
+  {n:7,title:'Infrastructure Absent',pct:3,
+   rows:[['EU dedicated H₂ pipeline built (2025)','~500 km vs 40,000 km planned'],['H₂ refuelling stations globally','~1,100 vs 10,000+ needed for network'],['Shell CA station closures (2023)','48 stations shut — "no customers"'],['Rotterdam H₂ import terminal (earliest)','2030']],
+   proof:'Shell closed 48 California H₂ stations in 2023 citing zero demand. There is no viable chicken-and-egg solution when cost of both infrastructure and production exceeds any consumer-viable price.'},
+  {n:8,title:'Technical Underperformance',pct:1,
+   rows:[['IRENA 2024: median electrolyser CF','30–45% (vs 60–80% design)'],['Stack degradation actual vs modelled','1–3%/yr higher than assumed'],['Plug Power 2025 output vs 2021 promise','~5 ktpa vs 60 ktpa (8% delivery)'],['NEOM: target 2026','Revised to 2027+ due to construction issues']],
+   proof:'Electrolyser manufacturers have systematically over-promised performance. At 35% CF vs 70% modelled, the actual LCOH is approximately 2.1× the financial model assumption — projects are uneconomic before they even face market challenges.'},
+];
+
+function buildQfailGrid(){
+  const g = document.getElementById('qfailGrid');
+  if(!g) return;
+  g.innerHTML = QFAIL_DATA.map(f=>`
+    <div class="qfail-card" data-n="${f.n}">
+      <div class="qfail-rank">Root Cause #${f.n}</div>
+      <div class="qfail-title">${f.title}</div>
+      <div class="qfail-pct">${f.pct}%</div>
+      <div class="qfail-bar"><div class="qfail-fill" style="width:${Math.min(100,f.pct*100/34)}%"></div></div>
+      <div class="qfail-data">${f.rows.map(r=>`
+        <div class="qfail-data-row">
+          <span class="qfail-data-lbl">${r[0]}</span>
+          <span class="qfail-data-val">${r[1]}</span>
+        </div>`).join('')}
+      </div>
+      <div class="qfail-proof">${f.proof}</div>
+    </div>`).join('');
+}
+
+// ── QUANTITATIVE FAILURE CHARTS ───────────────────────────────────────────────
+function buildQuantFailCharts(){
+  // 1. Learning curves (indexed to 100 in 2010)
+  const lcYears=['2010','2012','2014','2016','2018','2020','2022','2024','2025'];
+  new Chart(document.getElementById('chartLearning'),{type:'line',data:{labels:lcYears,datasets:[
+    {label:'Solar PV ($/W)',data:[100,57,20,12,9,6,5,4,4],borderColor:'#c47a22',borderWidth:2,pointRadius:3,tension:.35},
+    {label:'Li-ion Battery ($/kWh)',data:[100,68,48,25,15,13,12,10,10],borderColor:'#3a70c8',borderWidth:2,pointRadius:3,tension:.35},
+    {label:'Onshore Wind ($/kW)',data:[100,90,80,70,60,50,48,45,44],borderColor:'#2a7a4e',borderWidth:2,pointRadius:3,tension:.35},
+    {label:'Electrolyser CapEx non-China ($/kW)',data:[100,95,90,80,70,60,55,53,52],borderColor:'#4a8ab8',borderWidth:1.5,borderDash:[4,3],pointRadius:3,tension:.3},
+    {label:'Green H₂ LCOH ($/kg)',data:[100,104,107,100,93,85,100,80,80],borderColor:'#8b1e2c',borderWidth:2.5,pointRadius:4,tension:.3},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:12}}},
+    scales:{x:{ticks:{font:{size:9}},grid:{display:false}},y:{ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'Cost index (2010 = 100)',font:{size:9}},min:0,max:115}}}});
+
+  // 2. Government targets vs delivery
+  const tgt={labels:['EU (green H₂)','Germany','Australia','UK','Japan','India','S. Korea','USA','China'],
+    target:[10,10,1.7,10,3,5,2.7,10,35],committed:[0.3,0.3,0.05,1.0,0.5,0.5,0.3,2.5,10]};
+  new Chart(document.getElementById('chartTargetDelivery'),{type:'bar',data:{labels:tgt.labels,datasets:[
+    {label:'2030 Target (Mtpa)',data:tgt.target,backgroundColor:'rgba(148,148,152,.25)',borderColor:'#949498',borderWidth:1,borderRadius:2},
+    {label:'Committed FID+ (Mtpa)',data:tgt.committed,backgroundColor:tgt.committed.map((c,i)=>c/tgt.target[i]<.1?'rgba(184,56,56,.7)':c/tgt.target[i]<.2?'rgba(196,122,34,.7)':'rgba(42,122,78,.65)'),borderWidth:0,borderRadius:2},
+  ]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}},
+      tooltip:{callbacks:{afterLabel:c=>c.datasetIndex===1?`Delivery rate: ${(tgt.committed[c.dataIndex]/tgt.target[c.dataIndex]*100).toFixed(0)}%`:null}}},
+    scales:{x:{ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'Mtpa',font:{size:9}}},y:{ticks:{font:{size:9}},grid:{display:false}}}}});
+
+  // 3. Market penetration vs 2021 projections
+  const sects=['Refining\n(green H₂)','Ammonia\n(green)','Steel\n(H₂ DRI)','Shipping\n(H₂ fuels)','H-trucks\n(FCEV)','Cars\n(FCEV)','Heating\n(H₂)','Power\ngen.'];
+  const act=[2.3,0.5,0.001,0.03,0.30,0.005,0.0001,0.0001];
+  const prj=[12,5,2,3,5,0.5,2,1];
+  new Chart(document.getElementById('chartPenetration'),{type:'bar',data:{labels:sects,datasets:[
+    {label:'2021 projection for 2025 (%)',data:prj,backgroundColor:'rgba(148,148,152,.3)',borderColor:'#949498',borderWidth:1,borderRadius:2},
+    {label:'Actual 2025 (%)',data:act,backgroundColor:act.map(v=>v<0.1?'#b83838':v<2?'#c47a22':'#2a7a4e'),borderWidth:0,borderRadius:2},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}}},
+    scales:{x:{ticks:{font:{size:9}},grid:{display:false}},
+      y:{type:'logarithmic',ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'% sector demand (log scale)',font:{size:9}}}}}});
+
+  // 4. Capacity factor trap
+  const cf=[10,20,30,40,50,60,70,80,90];
+  function lcohCalc(elec,cfv){return Math.min(18, (elec*55/1000) + (700*0.09/(cfv/100*8760*0.02)) + 0.45);}
+  new Chart(document.getElementById('chartCFTrap'),{type:'line',data:{labels:cf.map(v=>v+'%'),datasets:[
+    {label:'$20/MWh (best sites)',data:cf.map(v=>+lcohCalc(20,v).toFixed(2)),borderColor:'#2a7a4e',borderWidth:2,pointRadius:2,tension:.4},
+    {label:'$40/MWh (typical)',data:cf.map(v=>+lcohCalc(40,v).toFixed(2)),borderColor:'#3a70c8',borderWidth:2,pointRadius:2,tension:.4},
+    {label:'$80/MWh (EU/UK)',data:cf.map(v=>+lcohCalc(80,v).toFixed(2)),borderColor:'#8b1e2c',borderWidth:2.5,pointRadius:2,tension:.4},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}}},
+    scales:{x:{ticks:{font:{size:9}},grid:{display:false},title:{display:true,text:'Capacity factor (%)',font:{size:9}}},
+      y:{ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'LCOH ($/kg)',font:{size:9}},min:0,max:16}}}});
+
+  // 5. Cancellation cascade
+  const ccY=['2020','2021','2022','2023','2024','2025'];
+  new Chart(document.getElementById('chartCancelCascade'),{type:'bar',data:{labels:ccY,datasets:[
+    {label:'Committed FID (Mtpa cumulative)',data:[0.05,0.3,0.8,1.5,2.5,3.5],backgroundColor:'rgba(42,122,78,.65)',borderWidth:0,borderRadius:2},
+    {label:'Cancelled / stalled (Mtpa cumulative)',data:[0.02,0.5,2.0,5.0,8.0,12.0],backgroundColor:'rgba(184,56,56,.6)',borderWidth:0,borderRadius:2},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}}},
+    scales:{x:{ticks:{font:{size:9}},grid:{display:false}},y:{ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'Mtpa capacity',font:{size:9}}}}}});
+
+  // 6. Public ROI comparison
+  const roiL=['H₂ subsidy\n(HPBM-style)','Heat pump\ngrants','Solar PV\ngrants','Onshore\nwind','Li-ion BESS\n(grid)','Building\ninsulation'];
+  const roiV=[3.6,125,2000,800,600,180];
+  const roiU=['ktpa H₂','k homes perm. dec.','GWh/yr','GWh/yr','GWh capacity','k homes retrofit'];
+  new Chart(document.getElementById('chartPublicROI'),{type:'bar',data:{labels:roiL,datasets:[{
+    data:roiV,backgroundColor:['#8b1e2c','#2a7a4e','#c47a22','#3a70c8','#4a8ab8','#155a35'],borderWidth:0,borderRadius:2}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.x.toLocaleString()} ${roiU[c.dataIndex]} per $1B`}}},
+    scales:{x:{type:'logarithmic',ticks:{font:{size:9}},grid:{color:gridColor},title:{display:true,text:'Units per $1B (log scale)',font:{size:9}}},
+      y:{ticks:{font:{size:8.5}},grid:{display:false}}}}});
 }
 
 // ── COPY BUTTONS ──────────────────────────────────────────────────────────────
@@ -1884,7 +2212,7 @@ const MAP_MODES = {
     field:'proj_fid',
     fmt:v=>v||0,
     unit:'projects',
-    palette:['#f5f0e8','#c8d6ed','#90b1de','#5882c2','#2a5fa8'],
+    palette:['#f5f0e8','#c8d6ed','#90b1de','#5882c2','#3a70c8'],
     breaks:[0,3,8,20,60]
   },
   operational: {
@@ -1918,7 +2246,7 @@ const MAP_MODES = {
     unit:'',
     palette:null,
     categorical:true,
-    cats:{'Leader':'#155a35','Active':'#2a5fa8','Cautious':'#c47a22','Retreating':'#b83838','Early':'#7a7674'}
+    cats:{'Leader':'#155a35','Active':'#3a70c8','Cautious':'#c47a22','Retreating':'#b83838','Early':'#949498'}
   }
 };
 
@@ -2033,7 +2361,7 @@ function buildMap(){
               <div class="mtt-name">${d.flag} ${d.country}</div>
               <div class="mtt-row"><span class="mtt-lbl">Region</span><span class="mtt-val">${d.region}</span></div>
               <div class="mtt-row"><span class="mtt-lbl">Announced</span><span class="mtt-val">${d.proj_ann}</span></div>
-              <div class="mtt-row"><span class="mtt-lbl">Reached FID</span><span class="mtt-val" style="color:#2a5fa8">${d.proj_fid}</span></div>
+              <div class="mtt-row"><span class="mtt-lbl">Reached FID</span><span class="mtt-val" style="color:#3a70c8">${d.proj_fid}</span></div>
               <div class="mtt-row"><span class="mtt-lbl">Operational</span><span class="mtt-val" style="color:#2a7a4e">${d.proj_op}</span></div>
               <div class="mtt-row"><span class="mtt-lbl">Cancelled</span><span class="mtt-val" style="color:#b83838">${d.proj_can}</span></div>
               <div class="mtt-row"><span class="mtt-lbl">Public $</span><span class="mtt-val">$${d.public_bn}B</span></div>
@@ -2073,8 +2401,8 @@ function buildMap(){
 function openPanel(d){
   document.getElementById('cpName').textContent = `${d.flag} ${d.country}`;
   document.getElementById('cpRegion').textContent = d.region;
-  const verdColors = {'Leader':'#155a35','Active':'#2a5fa8','Cautious':'#c47a22','Retreating':'#b83838','Early':'#7a7674'};
-  const vc = verdColors[d.verdict]||'#7a7674';
+  const verdColors = {'Leader':'#155a35','Active':'#3a70c8','Cautious':'#c47a22','Retreating':'#b83838','Early':'#949498'};
+  const vc = verdColors[d.verdict]||'#949498';
   const totalProj = d.proj_ann || 1;
   const fidPct = (d.proj_fid/totalProj*100).toFixed(0);
   const canPct = (d.proj_can/totalProj*100).toFixed(0);
@@ -2084,22 +2412,22 @@ function openPanel(d){
       <span class="bdg" style="background:rgba(${parseInt(vc.slice(1,3),16)},${parseInt(vc.slice(3,5),16)},${parseInt(vc.slice(5,7),16)},.12);color:${vc};border:1px solid ${vc}55;font-size:.62rem;padding:4px 10px;">Verdict: ${d.verdict}</span>
     </div>
     <div class="cp-grid">
-      <div class="cp-stat"><div class="cp-stat-val" style="color:#7a7674">${d.proj_ann}</div><div class="cp-stat-lbl">Announced</div></div>
-      <div class="cp-stat"><div class="cp-stat-val" style="color:#2a5fa8">${d.proj_fid}</div><div class="cp-stat-lbl">Reached FID</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" style="color:#949498">${d.proj_ann}</div><div class="cp-stat-lbl">Announced</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" style="color:#3a70c8">${d.proj_fid}</div><div class="cp-stat-lbl">Reached FID</div></div>
       <div class="cp-stat"><div class="cp-stat-val" style="color:#2a7a4e">${d.proj_op}</div><div class="cp-stat-lbl">Operational</div></div>
       <div class="cp-stat"><div class="cp-stat-val" style="color:#b83838">${d.proj_can}</div><div class="cp-stat-lbl">Cancelled</div></div>
     </div>
     <div class="cp-section">
       <div class="cp-label">Conversion Funnel (% of announced)</div>
       <div style="font-family:var(--fm);font-size:.6rem;color:var(--text2);margin-bottom:3px;">FID: ${fidPct}% &nbsp;·&nbsp; Operational: ${opPct}% &nbsp;·&nbsp; Cancelled: ${canPct}%</div>
-      <div class="cp-bar"><div class="cp-bar-fill" style="width:${fidPct}%;background:#2a5fa8"></div></div>
+      <div class="cp-bar"><div class="cp-bar-fill" style="width:${fidPct}%;background:#3a70c8"></div></div>
       <div class="cp-bar" style="margin-top:3px"><div class="cp-bar-fill" style="width:${opPct}%;background:#2a7a4e"></div></div>
       <div class="cp-bar" style="margin-top:3px"><div class="cp-bar-fill" style="width:${canPct}%;background:#b83838"></div></div>
     </div>
     <div class="cp-divider"></div>
     <div class="cp-grid">
       <div class="cp-stat"><div class="cp-stat-val" style="color:#8b1e2c">$${d.public_bn}B</div><div class="cp-stat-lbl">Public Pledged</div></div>
-      <div class="cp-stat"><div class="cp-stat-val" style="color:#2a5fa8">$${d.private_bn}B</div><div class="cp-stat-lbl">Private Committed</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" style="color:#3a70c8">$${d.private_bn}B</div><div class="cp-stat-lbl">Private Committed</div></div>
     </div>
     <div class="cp-section">
       <div class="cp-label">2030 Production Target</div>
@@ -2123,9 +2451,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   buildCostCharts();
   buildViabilityCharts();
   buildFailureCharts();
+  buildQuantFailCharts();
   buildUKCharts();
   buildAppGrid();
-  buildFailGrid();
+  buildQfailGrid();
   buildCancList();
   renderProjTbl();
   renderCtryTbl();
