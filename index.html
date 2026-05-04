@@ -358,6 +358,31 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
 .qs-num.red{color:var(--red);}.qs-num.grn{color:var(--green);}.qs-num.gry{color:var(--gray);}
 .qs-lbl{font-family:var(--fm);font-size:.54rem;color:var(--text3);letter-spacing:.13em;text-transform:uppercase;margin-top:5px;}
 .qs-sub{font-family:var(--fm);font-size:.52rem;color:var(--text4);margin-top:3px;line-height:1.4;}
+/* ── HYDROGEN CAPACITY vs DEMAND TILE ── */
+.hvd-tile{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:4px;display:grid;grid-template-columns:1fr 1.15fr;gap:0;box-shadow:0 1px 4px rgba(26,22,18,.06);overflow:hidden;margin-bottom:8px;}
+.hvd-chart-col{padding:16px 18px;border-right:1px solid var(--border);}
+.hvd-chart-label{font-family:var(--fm);font-size:.5rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.hvd-chart-note{font-family:var(--fb);font-size:.63rem;color:var(--text3);font-style:italic;margin-top:10px;line-height:1.55;border-top:1px solid var(--border);padding-top:8px;}
+.hvd-data-col{padding:0;overflow-x:auto;}
+.hvd-table{width:100%;border-collapse:collapse;font-family:var(--fm);}
+.hvd-table th{font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;padding:7px 9px;text-align:center;border-bottom:1px solid var(--border);border-right:1px solid var(--border);line-height:1.4;}
+.hvd-table th span{font-family:var(--fb);font-style:italic;font-weight:400;letter-spacing:0;color:var(--text3);font-size:.52rem;}
+.hvd-th-brown{background:rgba(92,64,14,.07);color:#6b4510;}
+.hvd-th-blue{background:rgba(58,112,200,.07);color:var(--blue);}
+.hvd-th-green{background:rgba(42,122,78,.07);color:var(--green);}
+.hvd-th-total{background:rgba(26,22,18,.04);color:var(--text2);}
+.hvd-section-hdr td{background:var(--el);font-family:var(--fm);font-size:.48rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;font-weight:600;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.hvd-row-lbl{font-size:.58rem;color:var(--text2);padding:6px 9px;border-right:1px solid var(--border);border-bottom:1px solid rgba(26,22,18,.04);max-width:160px;line-height:1.45;}
+.hvd-brown,.hvd-blue,.hvd-green,.hvd-total{font-size:.62rem;font-weight:600;padding:6px 9px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid rgba(26,22,18,.04);vertical-align:middle;line-height:1.4;}
+.hvd-brown{color:#6b4510;}
+.hvd-blue{color:var(--blue);}
+.hvd-green{color:var(--green);}
+.hvd-total{color:var(--text);}
+.hvd-brown.bad,.hvd-blue.bad,.hvd-green.bad,.hvd-total.bad{color:var(--red);}
+.hvd-brown.warn,.hvd-blue.warn,.hvd-green.warn,.hvd-total.warn{color:var(--orange);}
+.hvd-brown.good,.hvd-blue.good,.hvd-green.good,.hvd-total.good{color:var(--green);}
+.hvd-note-inline{font-family:var(--fb);font-style:italic;font-weight:400;font-size:.52rem;color:var(--text3);display:block;}
+@media(max-width:1100px){.hvd-tile{grid-template-columns:1fr;}.hvd-chart-col{border-right:none;border-bottom:1px solid var(--border);}}
 </style>
 </head>
 <body>
@@ -497,6 +522,102 @@ footer{border-top:1px solid var(--border);padding:14px 0;margin-top:4px;backgrou
     <div class="elec-stat-divider"></div>
     <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">-98%</span><span class="elec-stat-lbl">Plug Power share price (peak → 2025)</span></div>
     <div class="elec-stat-row"><span class="elec-stat-val" style="color:var(--red);">-96%</span><span class="elec-stat-lbl">ITM Power share price (peak → 2025)</span></div>
+  </div>
+</div>
+
+<!-- ── TILE 3: Proposed vs Built vs Pipeline vs Demand ─────────────────────── -->
+<div class="sh" style="padding:14px 0 8px;"><div class="sh-line"></div><span class="sh-txt">Proposed vs Built vs Pipeline vs New Demand — By Hydrogen Type · 2020–2025 · Mtpa</span><div class="sh-line"></div></div>
+
+<div class="hvd-tile">
+  <div class="hvd-chart-col">
+    <div class="hvd-chart-label">Low-Emission H₂ Announced Pipeline → FID → Operational vs New Demand (Mtpa, 2030 horizon)</div>
+    <div style="height:260px;position:relative;"><canvas id="chartHvD"></canvas></div>
+    <div class="hvd-chart-note">Source: IEA Global Hydrogen Review 2025 · Hydrogen Council Compass 2025 · New demand = demand created specifically in new applications (non-legacy). Brown H₂ shown separately as it is not a "project economy" — it is legacy industrial production in China tracked by output, not by project database.</div>
+  </div>
+  <div class="hvd-data-col">
+    <table class="hvd-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="hvd-th-brown">🟫 Brown<br><span>Coal gasif.</span></th>
+          <th class="hvd-th-blue">🔵 Blue<br><span>SMR+CCS</span></th>
+          <th class="hvd-th-green">🟢 Green<br><span>Electrolysis</span></th>
+          <th class="hvd-th-total">⬛ Total<br><span>Low-emission</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hvd-section-hdr"><td colspan="5">CAPACITY · Mtpa · Production side</td></tr>
+        <tr>
+          <td class="hvd-row-lbl">Baseline 2020 (Mtpa)</td>
+          <td class="hvd-brown">23</td><td class="hvd-blue">0.3</td><td class="hvd-green">0.03</td><td class="hvd-total">~90 total</td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">Announced new by 2030 (Mtpa)</td>
+          <td class="hvd-brown" title="New capacity announced in China">~5</td>
+          <td class="hvd-blue">~15</td>
+          <td class="hvd-green">~22</td>
+          <td class="hvd-total bad">37 Mtpa<br><span class="hvd-note-inline">↓ from 49 in GHR 2024</span></td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">Pipeline (FID + construction) Mtpa</td>
+          <td class="hvd-brown">~3</td>
+          <td class="hvd-blue">~1.5</td>
+          <td class="hvd-green">~2.7</td>
+          <td class="hvd-total warn">4.2 Mtpa by 2030</td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">Actually built &amp; operational (2025)</td>
+          <td class="hvd-brown">~26</td>
+          <td class="hvd-blue">~0.5</td>
+          <td class="hvd-green">~0.8</td>
+          <td class="hvd-total bad">~1 Mtpa total low-em.</td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">Delivery rate (operational / announced)</td>
+          <td class="hvd-brown" style="color:var(--gray);">n/a</td>
+          <td class="hvd-blue bad">3.3%</td>
+          <td class="hvd-green bad">3.6%</td>
+          <td class="hvd-total bad">2.7%</td>
+        </tr>
+        <tr class="hvd-section-hdr"><td colspan="5">DEMAND · Mtpa · Demand side (new applications only, 2020–2025)</td></tr>
+        <tr>
+          <td class="hvd-row-lbl">New demand created 2020–2025 (Mtpa)</td>
+          <td class="hvd-brown" style="color:var(--gray);">+3 (China ind.)</td>
+          <td class="hvd-blue bad">~0.15</td>
+          <td class="hvd-green bad">~0.65</td>
+          <td class="hvd-total bad">&lt;1 Mt new apps</td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">Firm offtake signed (Mtpa)</td>
+          <td class="hvd-brown" style="color:var(--gray);">n/a</td>
+          <td class="hvd-blue warn">~0.6</td>
+          <td class="hvd-green warn">~1.1</td>
+          <td class="hvd-total warn">1.7 Mtpa total<br><span class="hvd-note-inline">↓ from 2.4 in 2023</span></td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">Firm offtake as % of FID pipeline</td>
+          <td class="hvd-brown" style="color:var(--gray);">—</td>
+          <td class="hvd-blue warn">40%</td>
+          <td class="hvd-green bad">41%</td>
+          <td class="hvd-total bad">~5% of announced</td>
+        </tr>
+        <tr class="hvd-section-hdr"><td colspan="5">COST CONTEXT · $/kg · 2025</td></tr>
+        <tr>
+          <td class="hvd-row-lbl">Production cost 2025 ($/kg)</td>
+          <td class="hvd-brown good">$0.8–1.2</td>
+          <td class="hvd-blue warn">$1.5–2.5</td>
+          <td class="hvd-green bad">$5–9 (global avg)</td>
+          <td class="hvd-total bad">$1–9 range</td>
+        </tr>
+        <tr>
+          <td class="hvd-row-lbl">CO₂ intensity (kg CO₂/kg H₂)</td>
+          <td class="hvd-brown bad">18–20 kg</td>
+          <td class="hvd-blue warn">0.5–3 kg (w/ CCS)</td>
+          <td class="hvd-green good">~0 kg (renewable)</td>
+          <td class="hvd-total bad">Avg: ~11 kg (2025)</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -2165,6 +2286,95 @@ function buildQuantFailCharts(){
       y:{ticks:{font:{size:8.5}},grid:{display:false}}}}});
 }
 
+// ── HYDROGEN CAPACITY vs DEMAND CHART ────────────────────────────────────────
+function buildHvDChart(){
+  const ctx = document.getElementById('chartHvD');
+  if(!ctx) return;
+
+  // Categories: Announced | FID/Pipeline | Operational | New Demand created
+  // Rows: Brown, Blue, Green, Total low-emission
+  const categories = ['Announced\n(Mtpa)', 'FID / Pipeline\n(Mtpa)', 'Operational\n(Mtpa 2025)', 'New Demand\nCreated (Mtpa)'];
+  const brown  = [5,    3,    3,    3   ];  // brown: legacy China growth
+  const blue   = [15,   1.5,  0.5,  0.15];
+  const green  = [22,   2.7,  0.8,  0.65];
+  const totalLo= [37,   4.2,  1.0,  0.8 ];  // total low-emission line
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: categories,
+      datasets: [
+        {
+          label: 'Brown H₂ (coal gasif.)',
+          data: brown,
+          backgroundColor: 'rgba(107,69,16,.55)',
+          borderColor: '#6b4510',
+          borderWidth: 1,
+          borderRadius: 2,
+          stack: 'stack',
+        },
+        {
+          label: 'Blue H₂ (SMR+CCS)',
+          data: blue,
+          backgroundColor: 'rgba(58,112,200,.55)',
+          borderColor: '#3a70c8',
+          borderWidth: 1,
+          borderRadius: 2,
+          stack: 'stack',
+        },
+        {
+          label: 'Green H₂ (electrolysis)',
+          data: green,
+          backgroundColor: 'rgba(42,122,78,.60)',
+          borderColor: '#2a7a4e',
+          borderWidth: 1,
+          borderRadius: 2,
+          stack: 'stack',
+        },
+        {
+          label: 'Total low-emission (line)',
+          data: totalLo,
+          type: 'line',
+          borderColor: '#8b1e2c',
+          borderWidth: 2,
+          pointRadius: 5,
+          pointBackgroundColor: '#8b1e2c',
+          tension: 0,
+          fill: false,
+          stack: undefined,
+          yAxisID: 'y',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 9 }, boxWidth: 11 } },
+        tooltip: {
+          callbacks: {
+            afterBody: (items) => {
+              const idx = items[0].dataIndex;
+              const totals = [42, 7.2, 4.3, 1.6]; // brown+blue+green stacked
+              return [`Stack total: ${totals[idx].toFixed(1)} Mtpa`];
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 9 } }, grid: { display: false } },
+        y: {
+          stacked: true,
+          ticks: { font: { size: 9 } },
+          grid: { color: gridColor },
+          title: { display: true, text: 'Mtpa', font: { size: 9 } },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
 // ── COPY BUTTONS ──────────────────────────────────────────────────────────────
 function copyFmt(){
   navigator.clipboard.writeText(document.getElementById('fmtCite').textContent);
@@ -2448,6 +2658,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
   buildOverviewCharts();
+  buildHvDChart();
   buildCostCharts();
   buildViabilityCharts();
   buildFailureCharts();
